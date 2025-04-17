@@ -14,106 +14,129 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mine BCT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
       min-height: 100vh;
-      padding-bottom: 80px;
+      background: url('https://i.postimg.cc/65DskVzd/Black-and-White-Modern-Coming-Soon-Mobile-Video.gif') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .mine-box {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 20px;
       text-align: center;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
     }
 
     h1 {
+      color: #00eaff;
       margin-bottom: 20px;
-      color: #00d9ff;
     }
 
-    #coin-btn {
-      background: url('https://i.postimg.cc/cC1xhhjN/coin-logo.jpg') no-repeat center center;
-      background-size: cover;
-      width: 120px;
-      height: 120px;
+    .points {
+      font-size: 2rem;
+      margin: 20px 0;
+      color: #ffea00;
+      text-shadow: 0 0 10px #ffea00;
+    }
+
+    .mine-btn {
+      background: linear-gradient(to right, #00eaff, #005eff);
+      color: white;
+      padding: 12px 30px;
+      font-size: 1.1rem;
       border: none;
-      border-radius: 50%;
+      border-radius: 30px;
       cursor: pointer;
-      margin: 20px;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-      transition: transform 0.2s;
-    }
-
-    #coin-btn:active {
-      transform: scale(0.95);
-    }
-
-    #status {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      color: #ffdd57;
-    }
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #111;
-      display: flex;
-      justify-content: space-around;
-      padding: 15px 0;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-    }
-
-    .bottom-nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1rem;
+      box-shadow: 0 0 15px #00eaff;
       transition: 0.3s;
     }
 
-    .bottom-nav a:hover {
-      color: #00d9ff;
+    .mine-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00eaff;
+    }
+
+    .footer-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      backdrop-filter: blur(6px);
+    }
+
+    .footer-nav a {
+      color: #fff;
+      font-size: 0.95rem;
+      text-decoration: none;
+      padding: 8px 12px;
+    }
+
+    .footer-nav a:hover {
+      color: #00eaff;
     }
   </style>
 </head>
 <body>
+  <div class="mine-box">
+    <h1>Mine BCT</h1>
+    <div class="points" id="points">Points: 0</div>
+    <button class="mine-btn" onclick="startMining()">Start Mining</button>
+  </div>
 
-  <h1>Start Mining</h1>
-
-  <button id="coin-btn" onclick="startMining()"></button>
-  <div id="status">Click to start mining</div>
-
-  <div class="bottom-nav">
+  <div class="footer-nav">
     <a href="index.html">Home</a>
-    <a href="airdrop.html">Airdrop</a>
-    <a href="task.html">Task</a>
+    <a href="task.html">Tasks</a>
     <a href="wallet.html">Wallet</a>
   </div>
 
   <script>
-    let mining = false;
     let points = 0;
     let interval;
-    let duration = 3 * 60 * 60; // 3 hours in seconds
-    let earned = 0;
+    let isMining = false;
 
     function startMining() {
-      if (mining) return;
-      mining = true;
-      points = 0;
-      earned = 0;
-      document.getElementById("status").innerText = "Mining started... 0 / 100";
-
+      if (isMining) return;
+      isMining = true;
       interval = setInterval(() => {
-        points++;
-        earned = Math.min(100, points);
-        document.getElementById("status").innerText = `Mining... ${earned} / 100`;
-
-        if (points >= 100) {
+        if (points < 100) {
+          points++;
+          document.getElementById("points").innerText = "Points: " + points;
+        } else {
           clearInterval(interval);
-          document.getElementById("status").innerText = "Mining completed! +100 BCT";
-          mining = false;
+          isMining = false;
+          alert("Mining completed! You earned 100 BCT Points.");
         }
-      }, (duration / 100) * 1000); // spread over 3 hours
+      }, 1000); // هر ۱ ثانیه یک پوینت برای تست سریع
     }
   </script>
-
 </body>
 </html>
